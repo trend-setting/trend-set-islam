@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth, firestore } from "@/app/firebase/page";
+import { auth, firestore } from "@/lib/firebase/page";
 import { doc, getDoc } from "firebase/firestore";
 
 export default function LoginPage(): React.ReactNode {

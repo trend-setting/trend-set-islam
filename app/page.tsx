@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import { firestore } from "@/app/firebase/page"; // Firestore import
+import { firestore } from "@/lib/firebase/page"; // Firestore import
 import { getDocs, collection, query, where } from "firebase/firestore"; // Firestore query functions
 import Navbar from "@/components/Navbar";
 

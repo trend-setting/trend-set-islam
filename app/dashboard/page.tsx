@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { auth, firestore } from "@/app/firebase/page";
+import { auth, firestore } from "@/lib/firebase/page";
 import NavClient from "@/components/NavClient";
 import AccordionOutline from "@/components/Accordian";
 import ModalQuestion from "@/components/ModalQuestion";
