@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { firestore } from "@/lib/firebase/page"; // Firestore import
 import { getDocs, collection, query, where } from "firebase/firestore"; // Firestore query functions
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 type Question = {
   id: string;
@@ -16,6 +17,7 @@ type Question = {
 export default function HomePage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [openAnswer, setOpenAnswer] = useState<string | null>(null); // State to track open answer
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -42,37 +44,53 @@ export default function HomePage() {
     fetchQuestions();
   }, []);
 
+  const toggleAnswer = (id: string) => {
+    setOpenAnswer(openAnswer === id ? null : id); // Toggle answer visibility
+  };
+
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-gray-100">
-        <p>Loading questions...</p>
+      <div className="h-screen flex items-center justify-center bg-[#F0EAD2]">
+        <p className="text-[#6C584C]">Loading questions...</p>
       </div>
     );
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-[#DDE5B6]">
       <Navbar />
-      <div className="h-screen flex flex-col items-center justify-center bg-gray-100">
-        <div className="w-full max-w-4xl bg-white p-6 rounded shadow-md">
-          <h1 className="text-3xl font-bold mb-4">Public Q&A</h1>
-          {questions.length > 0 ? (
-            <ul>
-              {questions.map((question) => (
-                <li key={question.id} className="mb-4">
-                  <p className="font-semibold">{question.text}</p>
-                  <p className="text-gray-500">
-                    Asked by: {question.userName} ({question.place})
-                  </p>
-                  <p className="text-green-500">Answered: {question.answer}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500">No answered questions available.</p>
-          )}
+      <div className="flex-grow pt-20">
+        <div className="max-w-2xl mx-auto px-4">
+          <ul className="mt-12 divide-y divide-[#ADC178]">
+            {questions.map((question) => (
+              <li key={question.id} className="pt-5 mb-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex gap-3">
+                    <div>
+                      <p className="font-semibold text-[#6C584C]">{question.text}</p>
+                      <span className="block text-sm text-[#A98467]">{question.userName}</span>
+                      <span className="block text-sm text-[#A98467]">{question.place}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => toggleAnswer(question.id)}
+                    className="text-[#6C584C] text-sm border rounded-lg px-3 py-2 duration-150 bg-[#F0EAD2] hover:bg-[#DDE5B6]"
+                  >
+                    {openAnswer === question.id ? "Hide Answer" : "Show Answer"}
+                  </button>
+                </div>
+
+                {openAnswer === question.id && (
+                  <div className="mt-4 px-4 py-2 bg-[#ADC178] rounded-md">
+                    <p className="text-[#6C584C]">{question.answer}</p>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }

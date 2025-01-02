@@ -25,8 +25,8 @@ interface Question {
 export default function AdminDashboard(): React.ReactNode {
   const [unansweredQuestions, setUnansweredQuestions] = useState<Question[]>([]);
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
-  const [answer, setAnswer] = useState<string>("");
-  const [submitting, setSubmitting] = useState<string | null>(null); // Track the question being submitted
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+  const [submitting, setSubmitting] = useState<string | null>(null);
   const [error, setError] = useState<string>("");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -91,23 +91,37 @@ export default function AdminDashboard(): React.ReactNode {
     }
   };
 
+  const handleAnswerChange = (questionId: string, value: string) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  };
+
   const handleAnswerSubmit = async (questionId: string): Promise<void> => {
-    setSubmitting(questionId); // Set the current question being submitted
+    setSubmitting(questionId);
     try {
       const questionRef = doc(firestore, "questions", questionId);
       await updateDoc(questionRef, {
-        answer: answer.trim(),
+        answer: answers[questionId]?.trim(),
         answered: true,
       });
 
-      setAnswer("");
+      setAnswers((prev) => ({ ...prev, [questionId]: "" }));
       fetchQuestions();
     } catch {
       setError("Error submitting answer");
     } finally {
-      setSubmitting(null); // Reset the submitting state
+      setSubmitting(null);
     }
   };
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [sidebarOpen]);
 
   if (loading) return <p>Loading...</p>;
 
@@ -153,10 +167,11 @@ export default function AdminDashboard(): React.ReactNode {
 
         {/* Sidebar */}
         <div
-          className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+          className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 ${
+            sidebarOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         >
-          <div className="p-4">
+          <div className="p-4 overflow-y-auto h-full">
             <button
               className="text-red-500 text-xl font-bold mb-4"
               onClick={() => setSidebarOpen(false)}
@@ -173,11 +188,11 @@ export default function AdminDashboard(): React.ReactNode {
                       Asked by: {question.userName} ({question.place})
                     </p>
                     <textarea
-                      value={answer}
-                      onChange={(e) => setAnswer(e.target.value)}
+                      value={answers[question.id] || ""}
+                      onChange={(e) => handleAnswerChange(question.id, e.target.value)}
                       className="w-full p-2 border rounded mt-2 mb-4"
                       placeholder="Write your answer here..."
-                      disabled={submitting === question.id} // Disable if this question is being submitted
+                      disabled={submitting === question.id}
                     />
                     <button
                       onClick={() => handleAnswerSubmit(question.id)}
@@ -186,7 +201,7 @@ export default function AdminDashboard(): React.ReactNode {
                           ? "bg-green-300 text-gray-500 cursor-not-allowed"
                           : "bg-green-500 text-white hover:bg-green-600"
                       }`}
-                      disabled={submitting === question.id} // Disable if this question is being submitted
+                      disabled={submitting === question.id}
                     >
                       {submitting === question.id
                         ? "Submitting Answer..."
