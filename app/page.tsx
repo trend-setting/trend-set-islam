@@ -51,7 +51,7 @@ export default function HomePage() {
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#F0EAD2]">
-        <p className="text-[#6C584C]">Loading questions...</p>
+        <p className="text-[#6C584C]">Loading Homepage...</p>
       </div>
     );
   }
@@ -76,7 +76,7 @@ export default function HomePage() {
                     onClick={() => toggleAnswer(question.id)}
                     className="text-[#6C584C] text-sm border rounded-lg px-3 py-2 duration-150 bg-[#F0EAD2] hover:bg-[#DDE5B6]"
                   >
-                    {openAnswer === question.id ? "Hide Answer" : "Show Answer"}
+                    {openAnswer === question.id ? "Hide" : "Answer"}
                   </button>
                 </div>
 

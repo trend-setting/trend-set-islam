@@ -10,19 +10,19 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-x-6 text-[#6C584C] mt-3 sm:mt-0">
             <a
-              href="https://www.instagram.com"
+              href="https://www.instagram.com/wafypmsa_official/"
               className="hover:text-[#ADC178] transition duration-150"
             >
               <BsInstagram size={24} />
             </a>
             <a
-              href="https://www.facebook.com"
+              href="https://www.facebook.com/pmsawafy"
               className="hover:text-[#ADC178] transition duration-150"
             >
               <BsFacebook size={24} />
             </a>
             <a
-              href="https://www.youtube.com"
+              href="https://www.youtube.com/@munthajulafnanstudentsasso6980"
               className="hover:text-[#ADC178] transition duration-150"
             >
               <BsYoutube size={24} />

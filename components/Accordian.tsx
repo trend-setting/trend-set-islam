@@ -56,10 +56,10 @@ const AccordionOutline: React.FC = () => {
   }
 
   return (
-    <section className="w-full divide-y divide-[#ADC178] rounded border border-[#ADC178] bg-[#DDE5B6]">
+    <section className="w-full divide-y divide-[#A98467] rounded border border-[#A98467] bg-[#ADC178]">
       {questions.map((question) => (
         <details key={question.id} className="group p-4">
-          <summary className="relative cursor-pointer list-none pr-8 font-medium text-[#A98467] transition-colors duration-300 focus-visible:outline-none group-hover:text-[#6C584C] [&::-webkit-details-marker]:hidden">
+          <summary className="relative cursor-pointer list-none pr-8 font-medium text-[#6C584C] transition-colors duration-300 focus-visible:outline-none group-hover:text-[#6C584C] [&::-webkit-details-marker]:hidden">
             {question.text}
             <svg
               xmlns="http://www.w3.org/2000/svg"

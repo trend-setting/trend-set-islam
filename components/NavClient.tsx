@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { auth, firestore } from "@/lib/firebase/page";
@@ -12,6 +12,7 @@ const NavClient: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,6 +40,19 @@ const NavClient: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const toggleDropdown = (): void => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -58,7 +72,7 @@ const NavClient: React.FC = () => {
     return (
       <nav className="flex justify-between items-center px-6 py-4 bg-[#F0EAD2] text-[#A98467]">
         <div className="text-xl font-bold">
-          <Link href="/">My Dashboard</Link>
+          <Link href="/dashboard">My Dashboard</Link>
         </div>
         <div className="text-[#6C584C]">Loading...</div>
       </nav>
@@ -69,16 +83,16 @@ const NavClient: React.FC = () => {
     <nav className="flex justify-between items-center px-6 py-4 bg-[#ADC178] text-[#6C584C]">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
-        <Link href="/">My Dashboard</Link>
+        <Link href="/dashboard">My Dashboard</Link>
       </div>
 
       {/* Right Side: User Info or Dropdown */}
-      <div className="relative">
+      <div className="relative" ref={dropdownRef}>
         {userName ? (
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-[#A98467] rounded hover:bg-[#6C584C] text-[#F0EAD2]"
+              className="px-4 py-2 bg-[#6C584C] rounded hover:bg-[#6C584C] text-[#ffff]"
             >
               {userName}
             </button>

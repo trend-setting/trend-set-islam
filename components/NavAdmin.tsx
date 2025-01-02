@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { auth, firestore } from "@/lib/firebase/page";
@@ -16,6 +16,9 @@ const NavAdmin: React.FC = () => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [unansweredCount, setUnansweredCount] = useState<number>(0);
   const router = useRouter();
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -58,26 +61,31 @@ const NavAdmin: React.FC = () => {
   };
 
   const toggleDropdown = (): void => {
-    setDropdownOpen((prev) => !prev);
+    setDropdownOpen(!dropdownOpen);
     setNotificationsOpen(false);
   };
 
   const toggleNotifications = (): void => {
-    setNotificationsOpen((prev) => !prev);
+    setNotificationsOpen(!notificationsOpen);
     setDropdownOpen(false);
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (!target.closest(".dropdown, .notification")) {
+      const target = event.target as Node;
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target) &&
+        notificationRef.current &&
+        !notificationRef.current.contains(target)
+      ) {
         setDropdownOpen(false);
         setNotificationsOpen(false);
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
@@ -112,13 +120,13 @@ const NavAdmin: React.FC = () => {
       {/* Right Side: Notifications and User Info */}
       <div className="flex items-center space-x-4">
         {/* Notification Icon */}
-        <div className="relative notification">
+        <div className="relative" ref={notificationRef}>
           <IoMdNotifications
             onClick={toggleNotifications}
             className="text-2xl cursor-pointer hover:text-[#ADC178]"
           />
           {unansweredCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-[#ADC178] text-[#F0EAD2] text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-[#fe1b1b] text-[#ffffff] text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
               {unansweredCount}
             </span>
           )}
@@ -133,7 +141,7 @@ const NavAdmin: React.FC = () => {
 
         {/* User Info */}
         {userName ? (
-          <div className="relative dropdown">
+          <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleDropdown}
               className="px-4 py-2 bg-[#DDE5B6] rounded hover:bg-[#ADC178] text-[#6C584C]"

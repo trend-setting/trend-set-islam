@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, firestore } from "@/lib/firebase/page";
 import { doc, setDoc } from "firebase/firestore";
-import { CiUser, CiHome } from "react-icons/ci";
-import { MdOutlineEmail } from "react-icons/md";
+import { CiUser } from "react-icons/ci";
+import { MdOutlineEmail, MdWorkOutline } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 
 export default function Signup(): React.ReactNode {
@@ -53,8 +53,13 @@ export default function Signup(): React.ReactNode {
         router.push("/login");
       }, 2000);
     } catch (err: unknown) {
-      setError("Error creating account. Please try again.");
-      console.error(err);
+      if (err instanceof Error) {
+        if (err.message.includes("auth/email-already-in-use")) {
+          setError("Email is already taken.");
+        } else {
+          setError("Error creating account. Please try again.");
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -63,7 +68,7 @@ export default function Signup(): React.ReactNode {
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#DDE5B6] px-4 md:px-8">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-[#6C584C] text-center">Islam on Web</h1>
+        <h1 className="text-2xl font-bold text-[#6C584C] text-center">Ask and Solve</h1>
         <p className="text-sm font-light text-[#A98467] text-center mt-2">
           Sign up for an account
         </p>
@@ -87,14 +92,14 @@ export default function Signup(): React.ReactNode {
           </div>
           <div>
             <label htmlFor="userPlace" className="block mb-2 text-sm font-medium text-[#6C584C]">
-              Place
+              Occupation
             </label>
             <div className="relative flex items-center text-gray-400">
-              <CiHome className="absolute left-3 h-5 w-5 text-[#6C584C]" />
+            <MdWorkOutline className="absolute left-3 h-5 w-5 text-[#6C584C]" />
               <input
                 type="text"
                 id="userPlace"
-                placeholder="Your Place"
+                placeholder="Your Occupation"
                 value={userPlace}
                 onChange={(e) => setUserPlace(e.target.value)}
                 className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
@@ -111,7 +116,7 @@ export default function Signup(): React.ReactNode {
               <input
                 type="email"
                 id="email"
-                placeholder="name@company.com"
+                placeholder="name@any.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
@@ -128,7 +133,7 @@ export default function Signup(): React.ReactNode {
               <input
                 type="password"
                 id="password"
-                placeholder="••••••••••"
+                placeholder="••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
@@ -136,6 +141,8 @@ export default function Signup(): React.ReactNode {
               />
             </div>
           </div>
+          {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+          {success && <div className="text-green-500 text-center mb-4">{success}</div>}
           <button
             type="submit"
             className="w-full py-2 bg-[#6C584C] text-white font-medium rounded-lg hover:bg-[#A98467] focus:ring-4 focus:ring-[#ADC178]"

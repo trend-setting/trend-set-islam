@@ -63,15 +63,14 @@ export default function LoginPage(): React.ReactNode {
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        if (err.message.includes("auth/user-not-found")) {
-          setError("No account found with this email. Please sign up.");
-        } else if (err.message.includes("auth/wrong-password")) {
-          setError("Incorrect password. Please try again.");
+        if (
+          err.message.includes("auth/user-not-found") ||
+          err.message.includes("auth/wrong-password")
+        ) {
+          setError("Email or password is incorrect.");
         } else {
-          setError(err.message);
+          setError("Email or password is incorrect. Please try again.");
         }
-      } else {
-        setError("An unexpected error occurred.");
       }
     } finally {
       setLoggingIn(false);
@@ -81,7 +80,7 @@ export default function LoginPage(): React.ReactNode {
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#F0EAD2]">
-        <p className="text-[#6C584C]">Loading...</p>
+        <p className="text-[#6C584C]">Loading Login Page...</p>
       </div>
     );
   }
@@ -89,7 +88,7 @@ export default function LoginPage(): React.ReactNode {
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#DDE5B6] px-4 md:px-8">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-[#6C584C] text-center">Islam on Web</h1>
+        <h1 className="text-2xl font-bold text-[#6C584C] text-center">Ask and Solve</h1>
         <p className="text-sm font-light text-[#A98467] text-center mt-2">
           Log in to your account
         </p>
@@ -103,7 +102,7 @@ export default function LoginPage(): React.ReactNode {
               <input
                 type="email"
                 id="email"
-                placeholder="name@company.com"
+                placeholder="name@any.com"
                 autoComplete="off"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -121,7 +120,7 @@ export default function LoginPage(): React.ReactNode {
               <input
                 type="password"
                 id="password"
-                placeholder="••••••••••"
+                placeholder="••••••"
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -130,6 +129,7 @@ export default function LoginPage(): React.ReactNode {
               />
             </div>
           </div>
+          {error && <div className="text-red-500 text-center mb-4">{error}</div>}
           <button
             type="submit"
             className="w-full py-2 bg-[#6C584C] text-white font-medium rounded-lg hover:bg-[#A98467] focus:ring-4 focus:ring-[#ADC178]"

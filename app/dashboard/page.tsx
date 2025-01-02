@@ -8,6 +8,7 @@ import { auth, firestore } from "@/lib/firebase/page";
 import NavClient from "@/components/NavClient";
 import AccordionOutline from "@/components/Accordian";
 import ModalQuestion from "@/components/ModalQuestion";
+import { CiCirclePlus } from "react-icons/ci";
 
 const Dashboard: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -50,9 +51,9 @@ const Dashboard: React.FC = () => {
           <h1 className="text-2xl font-bold text-[#A98467]">My Questions</h1>
           <button
             onClick={toggleModal}
-            className="bg-[#DDE5B6] text-[#6C584C] py-2 px-4 rounded hover:bg-[#ADC178]"
+            className="bg-[#ADC178] text-[#6C584C] py-2 px-4 rounded hover:bg-[#ADC178] flex items-center gap-x-2 font-semibold"
           >
-            Ask a Question +
+            Ask a Question <CiCirclePlus className="text-[#6C584C] h-6 w-7 font-semibold" />
           </button>
         </div>
         <AccordionOutline />

@@ -12,6 +12,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import NavAdmin from "@/components/NavAdmin";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface Question {
   id: string;
@@ -123,7 +124,13 @@ export default function AdminDashboard(): React.ReactNode {
     return () => document.body.classList.remove("overflow-hidden");
   }, [sidebarOpen]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#F0EAD2]">
+        <p className="text-[#6C584C]">Loading admin dashboard...</p>
+      </div>
+    );
+  }
 
   if (!isAdmin) return null;
 
@@ -142,14 +149,14 @@ export default function AdminDashboard(): React.ReactNode {
               Answered Questions
             </h2>
             {answeredQuestions.length > 0 ? (
-              <ul>
+              <ul className="">
                 {answeredQuestions.map((question) => (
-                  <li key={question.id} className="mb-6">
+                  <li key={question.id} className="mb-6 border border-[#ADC178] p-4 rounded-lg">
                     <p className="font-medium text-[#6C584C]">{question.text}</p>
                     <p className="text-sm text-[#A98467]">
                       Asked by: {question.userName} ({question.place})
                     </p>
-                    <p className="text-[#ADC178] mt-2 font-medium">
+                    <p className="text-[#6C584C] mt-2 font-medium">
                       Answer: {question.answer}
                     </p>
                   </li>
@@ -162,10 +169,10 @@ export default function AdminDashboard(): React.ReactNode {
         </div>
 
         <div
-          className="fixed top-1/2 right-0 transform -translate-y-1/2 bg-[#ADC178] text-white w-10 h-32 flex items-center justify-center cursor-pointer rounded-l-lg hover:bg-[#6C584C]"
+          className="fixed top-1/2 right-0 transform -translate-y-1/2 bg-[#6C584C] text-white w-10 h-32 flex items-center justify-center cursor-pointer rounded-l-lg hover:bg-[#6C584C]"
           onClick={() => setSidebarOpen(true)}
         >
-          <span className="transform -rotate-90 text-sm font-bold">Unanswered</span>
+          <span className="transform -rotate-90 text-sm font-bold">Unanswered Questions</span>
         </div>
 
         <div
@@ -178,7 +185,7 @@ export default function AdminDashboard(): React.ReactNode {
               className="text-[#A98467] text-lg font-medium mb-6"
               onClick={() => setSidebarOpen(false)}
             >
-              Close
+              <IoCloseSharp className="h-6 w-6" />
             </button>
             <h2 className="text-xl font-semibold mb-6 text-[#6C584C]">
               Unanswered Questions
@@ -186,7 +193,7 @@ export default function AdminDashboard(): React.ReactNode {
             {unansweredQuestions.length > 0 ? (
               <ul>
                 {unansweredQuestions.map((question) => (
-                  <li key={question.id} className="mb-8">
+                  <li key={question.id} className="mb-8 border border-[#ADC178] p-4 rounded-lg">
                     <p className="font-medium text-[#6C584C]">{question.text}</p>
                     <p className="text-sm text-[#A98467]">
                       Asked by: {question.userName} ({question.place})
@@ -194,7 +201,7 @@ export default function AdminDashboard(): React.ReactNode {
                     <textarea
                       value={answers[question.id] || ""}
                       onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-                      className="w-full p-3 border rounded-lg mt-3 mb-4 bg-[#F0EAD2] focus:ring-[#ADC178] focus:border-[#ADC178]"
+                      className="w-full p-3 border rounded-lg border-[#ADC178] mt-3 mb-4 bg-[#F0EAD2] focus:ring-[#ADC178] focus:border-[#ADC178]"
                       placeholder="Write your answer here..."
                       disabled={submitting === question.id}
                     />
