@@ -26,6 +26,7 @@ export default function AdminDashboard(): React.ReactNode {
   const [unansweredQuestions, setUnansweredQuestions] = useState<Question[]>([]);
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
   const [answer, setAnswer] = useState<string>("");
+  const [submitting, setSubmitting] = useState<string | null>(null); // Track the question being submitted
   const [error, setError] = useState<string>("");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -91,10 +92,11 @@ export default function AdminDashboard(): React.ReactNode {
   };
 
   const handleAnswerSubmit = async (questionId: string): Promise<void> => {
+    setSubmitting(questionId); // Set the current question being submitted
     try {
       const questionRef = doc(firestore, "questions", questionId);
       await updateDoc(questionRef, {
-        answer: answer,
+        answer: answer.trim(),
         answered: true,
       });
 
@@ -102,6 +104,8 @@ export default function AdminDashboard(): React.ReactNode {
       fetchQuestions();
     } catch {
       setError("Error submitting answer");
+    } finally {
+      setSubmitting(null); // Reset the submitting state
     }
   };
 
@@ -173,12 +177,20 @@ export default function AdminDashboard(): React.ReactNode {
                       onChange={(e) => setAnswer(e.target.value)}
                       className="w-full p-2 border rounded mt-2 mb-4"
                       placeholder="Write your answer here..."
+                      disabled={submitting === question.id} // Disable if this question is being submitted
                     />
                     <button
                       onClick={() => handleAnswerSubmit(question.id)}
-                      className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                      className={`py-2 px-4 rounded w-full ${
+                        submitting === question.id
+                          ? "bg-green-300 text-gray-500 cursor-not-allowed"
+                          : "bg-green-500 text-white hover:bg-green-600"
+                      }`}
+                      disabled={submitting === question.id} // Disable if this question is being submitted
                     >
-                      Submit Answer
+                      {submitting === question.id
+                        ? "Submitting Answer..."
+                        : "Submit Answer"}
                     </button>
                   </li>
                 ))}

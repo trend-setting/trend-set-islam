@@ -2,8 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { auth, firestore } from "@/lib/firebase/page";
-import { addDoc, collection, serverTimestamp, doc, getDoc } from "firebase/firestore";
-import { User } from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 interface ModalQuestionProps {
@@ -13,8 +18,9 @@ interface ModalQuestionProps {
 const ModalQuestion: React.FC<ModalQuestionProps> = ({ onClose }) => {
   const [question, setQuestion] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [userName, setUserName] = useState<string>("");
-  const [place, setPlace] = useState<string>("");
+  const [userName, setUserName] = useState<string>("Anonymous");
+  const [place, setPlace] = useState<string>("Unknown");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -45,16 +51,18 @@ const ModalQuestion: React.FC<ModalQuestionProps> = ({ onClose }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
     try {
       const user = auth.currentUser;
       if (!user) {
         setError("User not logged in.");
+        setIsSubmitting(false);
         return;
       }
 
       await addDoc(collection(firestore, "questions"), {
-        text: question,
+        text: question.trim(),
         userId: user.uid,
         userName,
         place,
@@ -68,6 +76,8 @@ const ModalQuestion: React.FC<ModalQuestionProps> = ({ onClose }) => {
     } catch (error) {
       console.error("Error submitting question:", error);
       setError("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -93,12 +103,18 @@ const ModalQuestion: React.FC<ModalQuestionProps> = ({ onClose }) => {
         className="w-full p-2 border rounded mb-4"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
+        disabled={isSubmitting}
       ></textarea>
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+        className={`py-2 px-4 rounded w-full ${
+          isSubmitting
+            ? "bg-blue-300 text-gray-500 cursor-not-allowed"
+            : "bg-blue-500 text-white hover:bg-blue-600"
+        }`}
+        disabled={isSubmitting}
       >
-        Submit Question
+        {isSubmitting ? "Submitting Question..." : "Submit Question"}
       </button>
     </form>
   );

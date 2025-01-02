@@ -11,6 +11,7 @@ export default function LoginPage(): React.ReactNode {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [loggingIn, setLoggingIn] = useState<boolean>(false); // Added state to track login process
   const router = useRouter();
 
   useEffect(() => {
@@ -24,9 +25,9 @@ export default function LoginPage(): React.ReactNode {
           if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
             if (userData.isAdmin) {
-              router.push("/");
+              router.push("/"); // Redirect to admin page
             } else {
-              router.push("/");
+              router.push("/"); // Redirect to dashboard
             }
           }
         } catch (err) {
@@ -42,6 +43,7 @@ export default function LoginPage(): React.ReactNode {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setError("");
+    setLoggingIn(true);
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -59,7 +61,6 @@ export default function LoginPage(): React.ReactNode {
           router.push("/"); // Redirect to dashboard if user is client
         }
       }
-      setLoading(false);
     } catch (err: unknown) {
       if (err instanceof Error) {
         if (err.message.includes("auth/user-not-found")) {
@@ -72,6 +73,8 @@ export default function LoginPage(): React.ReactNode {
       } else {
         setError("An unexpected error occurred.");
       }
+    } finally {
+      setLoggingIn(false); // Reset login state
     }
   };
 
@@ -104,8 +107,14 @@ export default function LoginPage(): React.ReactNode {
           className="w-full p-2 border rounded mb-4"
           required
         />
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded w-full">
-          Log In
+        <button
+          type="submit"
+          className={`py-2 px-4 rounded w-full ${
+            loggingIn ? "bg-blue-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
+          }`}
+          disabled={loggingIn} // Disable the button while logging in
+        >
+          {loggingIn ? "Logging In..." : "Log In"}
         </button>
         <p className="text-gray-600 mt-4 text-center">
           Don't have an account?{" "}

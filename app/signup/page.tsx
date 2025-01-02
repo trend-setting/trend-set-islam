@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, firestore } from "@/lib/firebase/page";
@@ -115,8 +115,10 @@ export default function Signup(): React.ReactNode {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-            disabled={loading}
+            className={`py-2 px-4 rounded w-full ${
+              loading ? "bg-blue-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
+            disabled={loading} // Disable the button while signing up
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
