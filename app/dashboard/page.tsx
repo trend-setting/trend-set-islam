@@ -45,19 +45,19 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <NavClient />
-      <div className="h-screen p-4">
+      <div className="h-screen p-4 bg-[#F0EAD2]">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">My Questions</h1>
+          <h1 className="text-2xl font-bold text-[#A98467]">My Questions</h1>
           <button
             onClick={toggleModal}
-            className="bg-blue-500 text-white py-2 px-4 rounded"
+            className="bg-[#DDE5B6] text-[#6C584C] py-2 px-4 rounded hover:bg-[#ADC178]"
           >
             Ask a Question +
           </button>
         </div>
         <AccordionOutline />
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-[#6C584C] bg-opacity-50">
             <ModalQuestion onClose={toggleModal} />
           </div>
         )}

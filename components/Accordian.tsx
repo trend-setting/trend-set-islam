@@ -44,26 +44,26 @@ const AccordionOutline: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+    return <p className="text-center text-[#6C584C]">Loading...</p>;
   }
 
   if (questions.length === 0) {
     return (
-      <div className="w-full p-6 text-center text-slate-500">
+      <div className="w-full p-6 text-center text-[#A98467]">
         Feel free to ask Islamic questions. We are here to help you.
       </div>
     );
   }
 
   return (
-    <section className="w-full divide-y divide-slate-200 rounded border border-slate-200 bg-white">
+    <section className="w-full divide-y divide-[#ADC178] rounded border border-[#ADC178] bg-[#DDE5B6]">
       {questions.map((question) => (
         <details key={question.id} className="group p-4">
-          <summary className="relative cursor-pointer list-none pr-8 font-medium text-slate-700 transition-colors duration-300 focus-visible:outline-none group-hover:text-slate-900 [&::-webkit-details-marker]:hidden">
+          <summary className="relative cursor-pointer list-none pr-8 font-medium text-[#A98467] transition-colors duration-300 focus-visible:outline-none group-hover:text-[#6C584C] [&::-webkit-details-marker]:hidden">
             {question.text}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="absolute right-0 top-1 h-4 w-4 shrink-0 stroke-slate-700 transition duration-300 group-open:rotate-45"
+              className="absolute right-0 top-1 h-4 w-4 shrink-0 stroke-[#6C584C] transition duration-300 group-open:rotate-45"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -78,7 +78,7 @@ const AccordionOutline: React.FC = () => {
               />
             </svg>
           </summary>
-          <p className="mt-4 text-slate-500">
+          <p className="mt-4 text-[#6C584C]">
             {question.answered
               ? `Answer: ${question.answer}`
               : "Answer is pending"}

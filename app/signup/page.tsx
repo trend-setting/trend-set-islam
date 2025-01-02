@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, firestore } from "@/lib/firebase/page";
 import { doc, setDoc } from "firebase/firestore";
+import { CiUser, CiHome } from "react-icons/ci";
+import { MdOutlineEmail } from "react-icons/md";
+import { TbLockPassword } from "react-icons/tb";
 
 export default function Signup(): React.ReactNode {
   const [email, setEmail] = useState<string>("");
@@ -16,7 +19,6 @@ export default function Signup(): React.ReactNode {
   const [success, setSuccess] = useState<string>("");
   const router = useRouter();
 
-  // Predefined list of admin emails
   const adminEmails = [
     "trendsetadmin@gmail.com",
     "admin2@example.com",
@@ -31,28 +33,24 @@ export default function Signup(): React.ReactNode {
     setLoading(true);
 
     try {
-      // Create a new user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Determine if the user is an admin
       const isAdmin = adminEmails.includes(email);
 
-      // Save user data to Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         email: user.email,
         userName: userName,
         userPlace: userPlace,
-        isAdmin: isAdmin, // Mark as admin if the email matches
+        isAdmin: isAdmin,
         uid: user.uid,
       });
 
-      // Log out the user after account creation
       await signOut(auth);
 
       setSuccess("Account created successfully! Redirecting to login...");
       setTimeout(() => {
-        router.push("/login"); // Redirect to the login page after a delay
+        router.push("/login");
       }, 2000);
     } catch (err: unknown) {
       setError("Error creating account. Please try again.");
@@ -63,65 +61,97 @@ export default function Signup(): React.ReactNode {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-6 rounded shadow-md">
-        <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {success && <p className="text-green-500 mb-4">{success}</p>}
-        <form onSubmit={handleSignup}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-semibold">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
+    <div className="flex items-center justify-center min-h-screen bg-[#DDE5B6] px-4 md:px-8">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-[#6C584C] text-center">Islam on Web</h1>
+        <p className="text-sm font-light text-[#A98467] text-center mt-2">
+          Sign up for an account
+        </p>
+        <form onSubmit={handleSignup} className="mt-8 space-y-6">
+          <div>
+            <label htmlFor="userName" className="block mb-2 text-sm font-medium text-[#6C584C]">
+              Name
+            </label>
+            <div className="relative flex items-center text-gray-400">
+              <CiUser className="absolute left-3 h-5 w-5 text-[#6C584C]" />
+              <input
+                type="text"
+                id="userName"
+                placeholder="Your Name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-semibold">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
+          <div>
+            <label htmlFor="userPlace" className="block mb-2 text-sm font-medium text-[#6C584C]">
+              Place
+            </label>
+            <div className="relative flex items-center text-gray-400">
+              <CiHome className="absolute left-3 h-5 w-5 text-[#6C584C]" />
+              <input
+                type="text"
+                id="userPlace"
+                placeholder="Your Place"
+                value={userPlace}
+                onChange={(e) => setUserPlace(e.target.value)}
+                className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label htmlFor="userName" className="block text-sm font-semibold">User Name</label>
-            <input
-              type="text"
-              id="userName"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
+          <div>
+            <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#6C584C]">
+              Email
+            </label>
+            <div className="relative flex items-center text-gray-400">
+              <MdOutlineEmail className="absolute left-3 h-5 w-5 text-[#6C584C]" />
+              <input
+                type="email"
+                id="email"
+                placeholder="name@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label htmlFor="userPlace" className="block text-sm font-semibold">Place</label>
-            <input
-              type="text"
-              id="userPlace"
-              value={userPlace}
-              onChange={(e) => setUserPlace(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
+          <div>
+            <label htmlFor="password" className="block mb-2 text-sm font-medium text-[#6C584C]">
+              Password
+            </label>
+            <div className="relative flex items-center text-gray-400">
+              <TbLockPassword className="absolute left-3 h-5 w-5 text-[#6C584C]" />
+              <input
+                type="password"
+                id="password"
+                placeholder="••••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 py-2 bg-[#F0EAD2] text-[#6C584C] border border-[#ADC178] rounded-lg focus:ring-[#ADC178] focus:border-[#ADC178] focus:outline-none"
+                required
+              />
+            </div>
           </div>
           <button
             type="submit"
-            className={`py-2 px-4 rounded w-full ${
-              loading ? "bg-blue-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-            disabled={loading} // Disable the button while signing up
+            className="w-full py-2 bg-[#6C584C] text-white font-medium rounded-lg hover:bg-[#A98467] focus:ring-4 focus:ring-[#ADC178]"
+            disabled={loading}
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
+          <p className="text-sm font-light text-center text-[#A98467]">
+            Already have an account?{" "}
+            <span
+              onClick={() => router.push("/login")}
+              className="font-medium text-[#6C584C] hover:underline cursor-pointer"
+            >
+              Login
+            </span>
+          </p>
         </form>
       </div>
     </div>

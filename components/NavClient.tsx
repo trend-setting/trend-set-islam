@@ -48,7 +48,7 @@ const NavClient: React.FC = () => {
       await signOut(auth);
       setUserName(null);
       setIsAdmin(false);
-      router.push("/login"); // Redirect to login page after logout
+      router.push("/login");
     } catch (err) {
       console.error("Error logging out:", err);
     }
@@ -56,17 +56,17 @@ const NavClient: React.FC = () => {
 
   if (loading) {
     return (
-      <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white">
+      <nav className="flex justify-between items-center px-6 py-4 bg-[#F0EAD2] text-[#A98467]">
         <div className="text-xl font-bold">
           <Link href="/">My Dashboard</Link>
         </div>
-        <div className="text-gray-400">Loading...</div>
+        <div className="text-[#6C584C]">Loading...</div>
       </nav>
     );
   }
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white">
+    <nav className="flex justify-between items-center px-6 py-4 bg-[#ADC178] text-[#6C584C]">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
         <Link href="/">My Dashboard</Link>
@@ -78,21 +78,21 @@ const NavClient: React.FC = () => {
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
+              className="px-4 py-2 bg-[#A98467] rounded hover:bg-[#6C584C] text-[#F0EAD2]"
             >
               {userName}
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded">
+              <div className="absolute right-0 mt-2 w-48 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
                 <Link
                   href="/"
-                  className="block px-4 py-2 hover:bg-gray-100"
+                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
                 >
                   Homepage
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block px-4 py-2 text-left hover:bg-gray-100 w-full"
+                  className="block px-4 py-2 text-left hover:bg-[#DDE5B6] w-full"
                 >
                   Log out
                 </button>
@@ -103,21 +103,21 @@ const NavClient: React.FC = () => {
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
+              className="px-4 py-2 bg-[#ADC178] text-white rounded hover:bg-[#DDE5B6]"
             >
               Ask a Question
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded">
+              <div className="absolute right-0 mt-2 w-48 bg-[#ADC178] text-[#6C584C] shadow-lg rounded">
                 <Link
                   href="/login"
-                  className="block px-4 py-2 hover:bg-gray-100"
+                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
                 >
                   Login
                 </Link>
                 <Link
                   href="/login"
-                  className="block px-4 py-2 hover:bg-gray-100"
+                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
                 >
                   Admin Login
                 </Link>

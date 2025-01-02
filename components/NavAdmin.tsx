@@ -17,7 +17,6 @@ const NavAdmin: React.FC = () => {
   const [unansweredCount, setUnansweredCount] = useState<number>(0);
   const router = useRouter();
 
-  // Fetch user data and unanswered questions
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -47,7 +46,6 @@ const NavAdmin: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  // Fetch unanswered questions
   const fetchUnansweredQuestions = async () => {
     try {
       const questionsRef = collection(firestore, "questions");
@@ -59,7 +57,6 @@ const NavAdmin: React.FC = () => {
     }
   };
 
-  // Toggle dropdowns
   const toggleDropdown = (): void => {
     setDropdownOpen((prev) => !prev);
     setNotificationsOpen(false);
@@ -70,7 +67,6 @@ const NavAdmin: React.FC = () => {
     setDropdownOpen(false);
   };
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -97,20 +93,20 @@ const NavAdmin: React.FC = () => {
 
   if (loading) {
     return (
-      <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white">
+      <nav className="flex justify-between items-center px-6 py-4 bg-[#6C584C] text-[#F0EAD2]">
         <div className="text-xl font-bold">
-          <Link href="/">My Dashboard</Link>
+          <Link href="/">Admin Panel</Link>
         </div>
-        <div className="text-gray-400">Loading...</div>
+        <div className="text-[#A98467]">Loading...</div>
       </nav>
     );
   }
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white">
+    <nav className="flex justify-between items-center px-6 py-4 bg-[#6C584C] text-[#F0EAD2]">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
-        <Link href="/">My Dashboard</Link>
+        <Link href="/">Admin Panel</Link>
       </div>
 
       {/* Right Side: Notifications and User Info */}
@@ -119,15 +115,15 @@ const NavAdmin: React.FC = () => {
         <div className="relative notification">
           <IoMdNotifications
             onClick={toggleNotifications}
-            className="text-2xl cursor-pointer hover:text-gray-300"
+            className="text-2xl cursor-pointer hover:text-[#ADC178]"
           />
           {unansweredCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-[#ADC178] text-[#F0EAD2] text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
               {unansweredCount}
             </span>
           )}
           {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-white text-black shadow-lg rounded">
+            <div className="absolute right-0 mt-2 w-64 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
               <p className="px-4 py-2">
                 {unansweredCount} question{unansweredCount !== 1 ? "s" : ""} are pending to answer.
               </p>
@@ -140,18 +136,18 @@ const NavAdmin: React.FC = () => {
           <div className="relative dropdown">
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
+              className="px-4 py-2 bg-[#DDE5B6] rounded hover:bg-[#ADC178] text-[#6C584C]"
             >
               {userName}
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded">
-                <Link href="/" className="block px-4 py-2 hover:bg-gray-100">
+              <div className="absolute right-0 mt-2 w-48 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
+                <Link href="/" className="block px-4 py-2 hover:bg-[#DDE5B6]">
                   Homepage
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block px-4 py-2 text-left hover:bg-gray-100 w-full"
+                  className="block px-4 py-2 text-left hover:bg-[#DDE5B6] w-full"
                 >
                   Log out
                 </button>
@@ -159,7 +155,7 @@ const NavAdmin: React.FC = () => {
             )}
           </div>
         ) : (
-          <Link href="/login" className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
+          <Link href="/login" className="px-4 py-2 bg-[#DDE5B6] rounded hover:bg-[#ADC178] text-[#6C584C]">
             Login
           </Link>
         )}

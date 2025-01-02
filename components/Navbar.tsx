@@ -57,7 +57,7 @@ const Navbar = () => {
     return (
       <nav className="flex justify-between items-center px-6 py-4 bg-[#ADC178] text-[#6C584C]">
         <div className="text-xl font-bold">
-          <Link href="/">Islamic Dought</Link>
+          <Link href="/">Islamic Doubt</Link>
         </div>
         <div className="text-[#A98467]">Loading...</div>
       </nav>
@@ -68,7 +68,7 @@ const Navbar = () => {
     <nav className="flex justify-between items-center px-6 py-4 bg-[#ADC178] text-[#6C584C]">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
-        <Link href="/">Islamic Dought</Link>
+        <Link href="/">Islamic Doubt</Link>
       </div>
 
       {/* Right Side: User Info or Dropdown */}

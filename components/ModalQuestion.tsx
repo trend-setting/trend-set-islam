@@ -84,34 +84,28 @@ const ModalQuestion: React.FC<ModalQuestionProps> = ({ onClose }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md bg-white p-6 rounded shadow-md relative"
+      className="w-full max-w-md p-6 rounded shadow-md relative bg-[#F0EAD2]"  // Background color from palette
     >
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+        className="absolute top-2 right-2 text-[#6C584C] hover:text-[#A98467]" // Close button colors from palette
       >
         ×
       </button>
-      <h2 className="text-xl font-bold mb-4">Ask a Question</h2>
+      <h2 className="text-xl font-bold mb-4 text-[#6C584C]">Ask a Question</h2>  {/* Title color */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <p className="text-gray-700 mb-4">
-        Welcome, {userName} ({place})
-      </p>
+      <p className="text-[#6C584C] mb-4">Welcome, {userName} ({place})</p>  {/* Text color */}
       <textarea
         placeholder="Type your question here..."
-        className="w-full p-2 border rounded mb-4"
+        className="w-full p-2 border rounded mb-4 border-[#ADC178]" // Border color from palette
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         disabled={isSubmitting}
       ></textarea>
       <button
         type="submit"
-        className={`py-2 px-4 rounded w-full ${
-          isSubmitting
-            ? "bg-blue-300 text-gray-500 cursor-not-allowed"
-            : "bg-blue-500 text-white hover:bg-blue-600"
-        }`}
+        className={`py-2 px-4 rounded w-full ${isSubmitting ? "bg-[#DDE5B6] text-[#6C584C] cursor-not-allowed" : "bg-[#ADC178] text-white hover:bg-[#A98467]"}`}  // Button colors from palette
         disabled={isSubmitting}
       >
         {isSubmitting ? "Submitting Question..." : "Submit Question"}
