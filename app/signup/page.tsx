@@ -21,7 +21,7 @@ export default function Signup(): React.ReactNode {
 
   const adminEmails = [
     "shuhaib@islam.com",
-    "admin2@example.com",
+    "swalih@islam.com",
     "admin3@example.com",
     "admin4@example.com",
   ];
