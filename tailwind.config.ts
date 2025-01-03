@@ -9,11 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#ADC178", // Main background
-        secondary: "#6C584C", // Text and icons
-        accent: "#A98467", // Button background
-        light: "#F0EAD2", // Lighter background for elements
-        muted: "#DDE5B6", // Muted tones for hover
+        primary: "#fff", // Main background
+        secondary: "#004c6d", // Navbar Footer
+        accent: "#fefae0", // Button background
+        light: "#2d769b", // Lighter background for elements
+        muted: "#8dbedb", // Muted tones for hover
       },
     },
   },

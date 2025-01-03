@@ -78,7 +78,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-primary text-secondary shadow-md z-50">
+    <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-secondary text-primary shadow-md z-50">
       <div className="text-xl font-bold">
         <Link href="/">Ask and Solve</Link>
       </div>
@@ -112,12 +112,12 @@ const Navbar = () => {
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-accent rounded hover:bg-secondary text-light"
+              className="px-4 py-2 bg-light rounded hover:bg-muted text-primary"
             >
               Ask a Question
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-light text-secondary shadow-lg rounded">
+              <div className="absolute right-0 mt-2 w-48 bg-light text-primary shadow-lg rounded">
                 <Link href="/login" className="block px-4 py-2 hover:bg-muted">
                   Login
                 </Link>

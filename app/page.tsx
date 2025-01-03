@@ -57,7 +57,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-muted">
+    <div className="flex flex-col min-h-screen bg-primary">
   <Navbar />
   <div className="flex-grow pt-20">
     <div className="max-w-2xl mx-auto px-4">
@@ -87,7 +87,7 @@ export default function HomePage() {
 
               {openAnswer === question.id && (
                 <div className="mt-4 px-4 py-2 bg-primary rounded-md">
-                  <p className="text-secondary">{question.answer}</p>
+                  <p className="text-black">{question.answer}</p>
                 </div>
               )}
             </li>
