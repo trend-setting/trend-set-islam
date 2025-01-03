@@ -126,8 +126,8 @@ export default function AdminDashboard(): React.ReactNode {
 
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#F0EAD2]">
-        <p className="text-[#6C584C]">Loading admin dashboard...</p>
+      <div className="h-screen flex items-center justify-center bg-primary">
+        <p className="text-black">Loading admin dashboard...</p>
       </div>
     );
   }
@@ -137,80 +137,80 @@ export default function AdminDashboard(): React.ReactNode {
   return (
     <>
       <NavAdmin />
-      <div className="flex flex-col bg-[#F0EAD2] min-h-screen pt-24 px-6 md:px-10">
-        <div className="w-full max-w-6xl mx-auto bg-[#DDE5B6] p-8 rounded-lg shadow-xl">
-          <h1 className="text-3xl font-bold mb-6 text-center text-[#6C584C]">
+      <div className="flex flex-col bg-primary min-h-screen pt-24 px-6 md:px-10">
+        <div className="w-full max-w-6xl mx-auto bg-secondary p-8 rounded-lg shadow-xl">
+          <h1 className="text-3xl font-bold mb-6 text-center text-primary">
             Admin Dashboard
           </h1>
-          {error && <p className="text-[#A98467] mb-6">{error}</p>}
+          {error && <p className="text-primary mb-6">{error}</p>}
 
           <div>
-            <h2 className="text-xl font-semibold mb-6 text-[#6C584C]">
+            <h2 className="text-xl font-semibold mb-6 text-primary">
               Answered Questions
             </h2>
             {answeredQuestions.length > 0 ? (
               <ul className="">
                 {answeredQuestions.map((question) => (
-                  <li key={question.id} className="mb-6 border border-[#ADC178] p-4 rounded-lg">
-                    <p className="font-medium text-[#6C584C]">{question.text}</p>
-                    <p className="text-sm text-[#A98467]">
+                  <li key={question.id} className="mb-6 border border-black p-4 rounded-lg">
+                    <p className="font-medium text-primary">Question: {question.text}</p>
+                    <p className="text-sm text-muted">
                       Asked by: {question.userName} ({question.place})
                     </p>
-                    <p className="text-[#6C584C] mt-2 font-medium">
+                    <p className="text-primary mt-2 font-medium">
                       Answer: {question.answer}
                     </p>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-[#A98467]">No answered questions</p>
+              <p className="text-primary">No answered questions</p>
             )}
           </div>
         </div>
 
         <div
-          className="fixed top-1/2 right-0 transform -translate-y-1/2 bg-[#6C584C] text-white w-10 h-32 flex items-center justify-center cursor-pointer rounded-l-lg hover:bg-[#6C584C]"
+          className="fixed top-1/2 right-0 transform -translate-y-1/2 bg-light text-primary w-10 h-32 flex items-center justify-center cursor-pointer rounded-l-lg hover:bg-muted"
           onClick={() => setSidebarOpen(true)}
         >
           <span className="transform -rotate-90 text-sm font-bold">Unanswered Questions</span>
         </div>
 
         <div
-          className={`fixed top-0 right-0 h-full w-80 bg-[#F0EAD2] shadow-lg transform transition-transform duration-300 ${
+          className={`fixed top-0 right-0 h-full w-80 bg-primary shadow-lg transform transition-transform duration-300 ${
             sidebarOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           <div className="p-6 overflow-y-auto h-full">
             <button
-              className="text-[#A98467] text-lg font-medium mb-6"
+              className="text-black text-lg font-medium mb-6"
               onClick={() => setSidebarOpen(false)}
             >
               <IoCloseSharp className="h-6 w-6" />
             </button>
-            <h2 className="text-xl font-semibold mb-6 text-[#6C584C]">
+            <h2 className="text-xl font-semibold mb-6 text-black">
               Unanswered Questions
             </h2>
             {unansweredQuestions.length > 0 ? (
               <ul>
                 {unansweredQuestions.map((question) => (
-                  <li key={question.id} className="mb-8 border border-[#ADC178] p-4 rounded-lg">
-                    <p className="font-medium text-[#6C584C]">{question.text}</p>
-                    <p className="text-sm text-[#A98467]">
+                  <li key={question.id} className="mb-8 border border-[#ADC178] p-4 rounded-lg bg-secondary">
+                    <p className="font-medium text-primary">{question.text}</p>
+                    <p className="text-sm text-muted">
                       Asked by: {question.userName} ({question.place})
                     </p>
                     <textarea
                       value={answers[question.id] || ""}
                       onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-                      className="w-full p-3 border rounded-lg border-[#ADC178] mt-3 mb-4 bg-[#F0EAD2] focus:ring-[#ADC178] focus:border-[#ADC178]"
+                      className="w-full p-3 border rounded-lg border-black mt-3 mb-4 bg-primary focus:ring-black focus:border-black"
                       placeholder="Write your answer here..."
                       disabled={submitting === question.id}
                     />
                     <button
                       onClick={() => handleAnswerSubmit(question.id)}
-                      className={`py-2 px-4 rounded w-full text-white ${
+                      className={`py-2 px-4 rounded w-full text-primary ${
                         submitting === question.id
-                          ? "bg-[#A98467] cursor-not-allowed"
-                          : "bg-[#ADC178] hover:bg-[#6C584C]"
+                          ? "bg-muted cursor-not-allowed"
+                          : "bg-light hover:bg-muted"
                       }`}
                       disabled={submitting === question.id}
                     >

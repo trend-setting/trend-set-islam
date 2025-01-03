@@ -50,8 +50,8 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#F0EAD2]">
-        <p className="text-[#6C584C]">Loading Homepage...</p>
+      <div className="h-screen flex items-center justify-center bg-primary">
+        <p className="text-black">Loading Homepage...</p>
       </div>
     );
   }
@@ -66,33 +66,37 @@ export default function HomePage() {
           No questions found. Be the first person to ask a question.
         </p>
       ) : (
-        <ul className="mt-12 divide-y divide-primary">
+        <>
+        <div className="bg-secondary p-5 rounded-lg my-2">
+        <ul className="divide-y divide-primary">
           {questions.map((question) => (
             <li key={question.id} className="pt-5 mb-4">
               <div className="flex items-start justify-between">
                 <div className="flex gap-3">
                   <div>
-                    <p className="font-semibold text-secondary">{question.text}</p>
-                    <span className="block text-sm text-accent">{question.userName}</span>
-                    <span className="block text-sm text-accent">{question.place}</span>
+                    <p className="font-semibold text-primary">{question.text}</p>
+                    <span className="block text-sm text-muted">{question.userName}</span>
+                    <span className="block text-sm text-muted">{question.place}</span>
                   </div>
                 </div>
                 <button
                   onClick={() => toggleAnswer(question.id)}
-                  className="text-secondary text-sm border rounded-lg px-3 py-2 duration-150 bg-light hover:bg-muted"
+                  className="text-primary text-sm border rounded-lg px-3 py-2 duration-150 bg-light hover:bg-muted"
                 >
                   {openAnswer === question.id ? "Hide" : "Answer"}
                 </button>
               </div>
 
               {openAnswer === question.id && (
-                <div className="mt-4 px-4 py-2 bg-primary rounded-md">
+                <div className="mt-4 px-4 py-2 bg-muted rounded-md">
                   <p className="text-black">{question.answer}</p>
                 </div>
               )}
             </li>
           ))}
         </ul>
+        </div>
+        </>
       )}
     </div>
   </div>

@@ -49,7 +49,7 @@ const AccordionOutline: React.FC = () => {
 
   if (questions.length === 0) {
     return (
-      <div className="w-full p-6 text-center text-[#A98467]">
+      <div className="w-full p-6 text-center text-black">
         Feel free to ask Islamic questions. We are here to help you.
       </div>
     );

@@ -101,17 +101,17 @@ const NavAdmin: React.FC = () => {
 
   if (loading) {
     return (
-      <nav className="flex justify-between items-center px-6 py-4 bg-[#6C584C] text-[#F0EAD2]">
+      <nav className="flex justify-between items-center px-6 py-4 bg-secondary text-primary">
         <div className="text-xl font-bold">
           <Link href="/">Admin Panel</Link>
         </div>
-        <div className="text-[#A98467]">Loading...</div>
+        <div className="text-primary">Loading...</div>
       </nav>
     );
   }
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-[#6C584C] text-[#F0EAD2]">
+    <nav className="flex justify-between items-center px-6 py-4 bg-secondary text-primary">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
         <Link href="/">Admin Panel</Link>
@@ -123,15 +123,15 @@ const NavAdmin: React.FC = () => {
         <div className="relative" ref={notificationRef}>
           <IoMdNotifications
             onClick={toggleNotifications}
-            className="text-2xl cursor-pointer hover:text-[#ADC178]"
+            className="text-2xl cursor-pointer hover:text-muted"
           />
           {unansweredCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-[#fe1b1b] text-[#ffffff] text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-[#fe1b1b] text-primary text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
               {unansweredCount}
             </span>
           )}
           {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
+            <div className="absolute right-0 mt-2 w-64 bg-primary text-black shadow-lg rounded">
               <p className="px-4 py-2">
                 {unansweredCount} question{unansweredCount !== 1 ? "s" : ""} are pending to answer.
               </p>
@@ -144,18 +144,18 @@ const NavAdmin: React.FC = () => {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-[#DDE5B6] rounded hover:bg-[#ADC178] text-[#6C584C]"
+              className="px-4 py-2 bg-light rounded hover:bg-muted text-primary"
             >
               {userName}
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
-                <Link href="/" className="block px-4 py-2 hover:bg-[#DDE5B6]">
+              <div className="absolute right-0 mt-2 w-48 bg-light text-primary shadow-lg rounded">
+                <Link href="/" className="block px-4 py-2 hover:bg-muted">
                   Homepage
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block px-4 py-2 text-left hover:bg-[#DDE5B6] w-full"
+                  className="block px-4 py-2 text-left hover:bg-muted w-full"
                 >
                   Log out
                 </button>
@@ -163,7 +163,7 @@ const NavAdmin: React.FC = () => {
             )}
           </div>
         ) : (
-          <Link href="/login" className="px-4 py-2 bg-[#DDE5B6] rounded hover:bg-[#ADC178] text-[#6C584C]">
+          <Link href="/login" className="px-4 py-2 bg-light rounded hover:bg-muted text-primary">
             Login
           </Link>
         )}

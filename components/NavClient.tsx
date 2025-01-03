@@ -70,17 +70,17 @@ const NavClient: React.FC = () => {
 
   if (loading) {
     return (
-      <nav className="flex justify-between items-center px-6 py-4 bg-[#F0EAD2] text-[#A98467]">
+      <nav className="flex justify-between items-center px-6 py-4 bg-secondary text-primary">
         <div className="text-xl font-bold">
           <Link href="/dashboard">My Dashboard</Link>
         </div>
-        <div className="text-[#6C584C]">Loading...</div>
+        <div className="text-primary">Loading...</div>
       </nav>
     );
   }
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-[#ADC178] text-[#6C584C]">
+    <nav className="flex justify-between items-center px-6 py-4 bg-secondary text-primary">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
         <Link href="/dashboard">My Dashboard</Link>
@@ -92,21 +92,21 @@ const NavClient: React.FC = () => {
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-[#6C584C] rounded hover:bg-[#6C584C] text-[#ffff]"
+              className="px-4 py-2 bg-light rounded hover:bg-muted text-primary"
             >
               {userName}
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
+              <div className="absolute right-0 mt-2 w-48 bg-light text-primary shadow-lg rounded">
                 <Link
                   href="/"
-                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
+                  className="block px-4 py-2 hover:bg-muted"
                 >
                   Homepage
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block px-4 py-2 text-left hover:bg-[#DDE5B6] w-full"
+                  className="block px-4 py-2 text-left hover:bg-red-600 w-full"
                 >
                   Log out
                 </button>
