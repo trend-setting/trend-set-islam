@@ -57,40 +57,46 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#DDE5B6]">
-      <Navbar />
-      <div className="flex-grow pt-20">
-        <div className="max-w-2xl mx-auto px-4">
-          <ul className="mt-12 divide-y divide-[#ADC178]">
-            {questions.map((question) => (
-              <li key={question.id} className="pt-5 mb-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex gap-3">
-                    <div>
-                      <p className="font-semibold text-[#6C584C]">{question.text}</p>
-                      <span className="block text-sm text-[#A98467]">{question.userName}</span>
-                      <span className="block text-sm text-[#A98467]">{question.place}</span>
-                    </div>
+    <div className="flex flex-col min-h-screen bg-muted">
+  <Navbar />
+  <div className="flex-grow pt-20">
+    <div className="max-w-2xl mx-auto px-4">
+      {questions.length === 0 ? (
+        <p className="text-center text-secondary mt-12">
+          No questions found. Be the first person to ask a question.
+        </p>
+      ) : (
+        <ul className="mt-12 divide-y divide-primary">
+          {questions.map((question) => (
+            <li key={question.id} className="pt-5 mb-4">
+              <div className="flex items-start justify-between">
+                <div className="flex gap-3">
+                  <div>
+                    <p className="font-semibold text-secondary">{question.text}</p>
+                    <span className="block text-sm text-accent">{question.userName}</span>
+                    <span className="block text-sm text-accent">{question.place}</span>
                   </div>
-                  <button
-                    onClick={() => toggleAnswer(question.id)}
-                    className="text-[#6C584C] text-sm border rounded-lg px-3 py-2 duration-150 bg-[#F0EAD2] hover:bg-[#DDE5B6]"
-                  >
-                    {openAnswer === question.id ? "Hide" : "Answer"}
-                  </button>
                 </div>
+                <button
+                  onClick={() => toggleAnswer(question.id)}
+                  className="text-secondary text-sm border rounded-lg px-3 py-2 duration-150 bg-light hover:bg-muted"
+                >
+                  {openAnswer === question.id ? "Hide" : "Answer"}
+                </button>
+              </div>
 
-                {openAnswer === question.id && (
-                  <div className="mt-4 px-4 py-2 bg-[#ADC178] rounded-md">
-                    <p className="text-[#6C584C]">{question.answer}</p>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <Footer />
+              {openAnswer === question.id && (
+                <div className="mt-4 px-4 py-2 bg-primary rounded-md">
+                  <p className="text-secondary">{question.answer}</p>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
+  </div>
+  <Footer />
+</div>
   );
 }

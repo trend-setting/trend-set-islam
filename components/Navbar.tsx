@@ -78,33 +78,30 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-[#ADC178] text-[#6C584C] shadow-md z-50">
-      {/* Left Side: Website Name */}
+    <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-primary text-secondary shadow-md z-50">
       <div className="text-xl font-bold">
         <Link href="/">Ask and Solve</Link>
       </div>
-
-      {/* Right Side: User Info or Dropdown */}
       <div className="relative" ref={dropdownRef}>
         {userName ? (
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-[#A98467] rounded hover:bg-[#6C584C] text-[#F0EAD2]"
+              className="px-4 py-2 bg-accent rounded hover:bg-secondary text-light"
             >
               {userName}
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
+              <div className="absolute right-0 mt-2 w-48 bg-light text-secondary shadow-lg rounded">
                 <Link
-                  href={isAdmin ? '/admin' : '/dashboard'}
-                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
+                  href={isAdmin ? "/admin" : "/dashboard"}
+                  className="block px-4 py-2 hover:bg-muted"
                 >
                   My Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block px-4 py-2 text-left hover:bg-[#DDE5B6] w-full"
+                  className="block px-4 py-2 text-left hover:bg-muted w-full"
                 >
                   Log out
                 </button>
@@ -115,22 +112,16 @@ const Navbar = () => {
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-[#A98467] rounded hover:bg-[#6C584C] text-[#F0EAD2]"
+              className="px-4 py-2 bg-accent rounded hover:bg-secondary text-light"
             >
               Ask a Question
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#F0EAD2] text-[#6C584C] shadow-lg rounded">
-                <Link
-                  href="/login"
-                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
-                >
+              <div className="absolute right-0 mt-2 w-48 bg-light text-secondary shadow-lg rounded">
+                <Link href="/login" className="block px-4 py-2 hover:bg-muted">
                   Login
                 </Link>
-                <Link
-                  href="/login"
-                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
-                >
+                <Link href="/login" className="block px-4 py-2 hover:bg-muted">
                   Admin Login
                 </Link>
               </div>
@@ -139,6 +130,7 @@ const Navbar = () => {
         )}
       </div>
     </nav>
+
   );
 };
 

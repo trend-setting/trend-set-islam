@@ -9,8 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#ADC178", // Main background
+        secondary: "#6C584C", // Text and icons
+        accent: "#A98467", // Button background
+        light: "#F0EAD2", // Lighter background for elements
+        muted: "#DDE5B6", // Muted tones for hover
       },
     },
   },
