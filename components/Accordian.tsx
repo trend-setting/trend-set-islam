@@ -56,14 +56,14 @@ const AccordionOutline: React.FC = () => {
   }
 
   return (
-    <section className="w-full divide-y divide-[#A98467] rounded border border-[#A98467] bg-[#ADC178]">
+    <section className="w-full divide-y divide-primary rounded border border-black bg-secondary">
       {questions.map((question) => (
         <details key={question.id} className="group p-4">
-          <summary className="relative cursor-pointer list-none pr-8 font-medium text-[#6C584C] transition-colors duration-300 focus-visible:outline-none group-hover:text-[#6C584C] [&::-webkit-details-marker]:hidden">
-            {question.text}
+          <summary className="relative cursor-pointer list-none pr-8 font-medium text-primary transition-colors duration-300 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
+            Question: {question.text}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="absolute right-0 top-1 h-4 w-4 shrink-0 stroke-[#6C584C] transition duration-300 group-open:rotate-45"
+              className="absolute right-0 top-1 h-4 w-4 shrink-0 stroke-primary transition duration-300 group-open:rotate-45"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -78,7 +78,7 @@ const AccordionOutline: React.FC = () => {
               />
             </svg>
           </summary>
-          <p className="mt-4 text-[#6C584C]">
+          <p className="mt-4 text-primary">
             {question.answered
               ? `Answer: ${question.answer}`
               : "Answer is pending"}

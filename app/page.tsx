@@ -4,6 +4,7 @@ import { firestore } from "@/lib/firebase/page"; // Firestore import
 import { getDocs, collection, query, where } from "firebase/firestore"; // Firestore query functions
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Loader from "@/components/Loader"; // Import the Loader component
 
 type Question = {
   id: string;
@@ -17,6 +18,7 @@ type Question = {
 export default function HomePage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showLoader, setShowLoader] = useState<boolean>(true); // Control loader visibility
   const [openAnswer, setOpenAnswer] = useState<string | null>(null); // State to track open answer
 
   useEffect(() => {
@@ -42,65 +44,70 @@ export default function HomePage() {
     };
 
     fetchQuestions();
+
+    // Show loader for 3 seconds regardless of loading state
+    const timer = setTimeout(() => {
+      setShowLoader(false);
+    }, 3000);
+
+    return () => clearTimeout(timer); // Cleanup the timer
   }, []);
 
   const toggleAnswer = (id: string) => {
     setOpenAnswer(openAnswer === id ? null : id); // Toggle answer visibility
   };
 
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-primary">
-        <p className="text-black">Loading Homepage...</p>
-      </div>
-    );
+  if (showLoader) {
+    return <Loader />; // Display the loader for 3 seconds
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-primary">
-  <Navbar />
-  <div className="flex-grow pt-20">
-    <div className="max-w-2xl mx-auto px-4">
-      {questions.length === 0 ? (
-        <p className="text-center text-secondary mt-12">
-          No questions found. Be the first person to ask a question.
-        </p>
-      ) : (
-        <>
-        <div className="bg-secondary p-5 rounded-lg my-2">
-        <ul className="divide-y divide-primary">
-          {questions.map((question) => (
-            <li key={question.id} className="pt-5 mb-4">
-              <div className="flex items-start justify-between">
-                <div className="flex gap-3">
-                  <div>
-                    <p className="font-semibold text-primary">{question.text}</p>
-                    <span className="block text-sm text-muted">{question.userName}</span>
-                    <span className="block text-sm text-muted">{question.place}</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => toggleAnswer(question.id)}
-                  className="text-primary text-sm border rounded-lg px-3 py-2 duration-150 bg-light hover:bg-muted"
-                >
-                  {openAnswer === question.id ? "Hide" : "Answer"}
-                </button>
-              </div>
+      <Navbar />
+      <div className="flex-grow pt-20">
+        <div className="max-w-2xl mx-auto px-4">
+          {loading ? (
+            <p className="text-center text-secondary mt-12">Loading questions...</p>
+          ) : questions.length === 0 ? (
+            <p className="text-center text-secondary mt-12">
+              No questions found. Be the first person to ask a question.
+            </p>
+          ) : (
+            <>
+              <div className="bg-secondary p-5 rounded-lg my-2">
+                <ul className="divide-y divide-primary">
+                  {questions.map((question) => (
+                    <li key={question.id} className="pt-5 mb-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex gap-3">
+                          <div>
+                            <p className="font-semibold text-primary">{question.text}</p>
+                            <span className="block text-sm text-muted">{question.userName}</span>
+                            <span className="block text-sm text-muted">{question.place}</span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => toggleAnswer(question.id)}
+                          className="text-primary text-sm border rounded-lg px-3 py-2 duration-150 bg-light hover:bg-muted"
+                        >
+                          {openAnswer === question.id ? "Hide" : "Answer"}
+                        </button>
+                      </div>
 
-              {openAnswer === question.id && (
-                <div className="mt-4 px-4 py-2 bg-muted rounded-md">
-                  <p className="text-black">{question.answer}</p>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+                      {openAnswer === question.id && (
+                        <div className="mt-4 px-4 py-2 bg-muted rounded-md">
+                          <p className="text-black">{question.answer}</p>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
         </div>
-        </>
-      )}
+      </div>
+      <Footer />
     </div>
-  </div>
-  <Footer />
-</div>
   );
 }
