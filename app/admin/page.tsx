@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import NavAdmin from "@/components/NavAdmin";
 import { IoCloseSharp } from "react-icons/io5";
+import Loader from "@/components/Loader";
 
 interface Question {
   id: string;
@@ -28,10 +29,11 @@ export default function AdminDashboard(): React.ReactNode {
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [submitting, setSubmitting] = useState<string | null>(null);
-  const [error, setError] = useState<string>("");
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [openAnswer, setOpenAnswer] = useState<string | null>(null); // For answered questions
   const [loading, setLoading] = useState<boolean>(true);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // For the sidebar
   const router = useRouter();
 
   useEffect(() => {
@@ -114,6 +116,10 @@ export default function AdminDashboard(): React.ReactNode {
     }
   };
 
+  const toggleAnswerVisibility = (id: string) => {
+    setOpenAnswer((prev) => (prev === id ? null : id));
+  };
+
   useEffect(() => {
     if (sidebarOpen) {
       document.body.classList.add("overflow-hidden");
@@ -125,11 +131,7 @@ export default function AdminDashboard(): React.ReactNode {
   }, [sidebarOpen]);
 
   if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-primary">
-        <p className="text-black">Loading admin dashboard...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!isAdmin) return null;
@@ -142,32 +144,46 @@ export default function AdminDashboard(): React.ReactNode {
           <h1 className="text-3xl font-bold mb-6 text-center text-primary">
             Admin Dashboard
           </h1>
-          {error && <p className="text-primary mb-6">{error}</p>}
+          {error && <p className="text-red-500 mb-6">{error}</p>}
 
           <div>
             <h2 className="text-xl font-semibold mb-6 text-primary">
               Answered Questions
             </h2>
             {answeredQuestions.length > 0 ? (
-              <ul className="">
+              <ul className="divide-y divide-primary">
                 {answeredQuestions.map((question) => (
-                  <li key={question.id} className="mb-6 border border-black p-4 rounded-lg">
-                    <p className="font-medium text-primary">Question: {question.text}</p>
-                    <p className="text-sm text-muted">
-                      Asked by: {question.userName} ({question.place})
-                    </p>
-                    <p className="text-primary mt-2 font-medium">
-                      Answer: {question.answer}
-                    </p>
+                  <li key={question.id} className="py-5">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-medium text-primary">{question.text}</p>
+                        <span className="block text-sm text-muted">
+                          Asked by: {question.userName} ({question.place})
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => toggleAnswerVisibility(question.id)}
+                        className="text-primary text-sm border rounded-lg px-3 py-2 duration-150 bg-light hover:bg-muted"
+                      >
+                        {openAnswer === question.id ? "Hide" : "Answer"}
+                      </button>
+                    </div>
+
+                    {openAnswer === question.id && (
+                      <div className="mt-4 px-4 py-2 bg-muted rounded-md">
+                        <p className="text-black">{question.answer}</p>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-primary">No answered questions</p>
+              <p className="text-primary">No answered questions available.</p>
             )}
           </div>
         </div>
 
+        {/* Sidebar for Unanswered Questions */}
         <div
           className="fixed top-1/2 right-0 transform -translate-y-1/2 bg-light text-primary w-10 h-32 flex items-center justify-center cursor-pointer rounded-l-lg hover:bg-muted"
           onClick={() => setSidebarOpen(true)}

@@ -1,4 +1,4 @@
-import { BsFacebook, BsInstagram, BsYoutube } from "react-icons/bs";
+import { BsFacebook, BsInstagram, BsWhatsapp, BsYoutube } from "react-icons/bs";
 
 export default function Footer() {
   return (
@@ -26,6 +26,12 @@ export default function Footer() {
               className="hover:text-muted transition duration-150"
             >
               <BsYoutube size={24} />
+            </a>
+            <a
+              href="https://whatsapp.com/channel/0029Vb2AqUCIyPtPC9Tedu3m"
+              className="hover:text-muted transition duration-150"
+            >
+              <BsWhatsapp size={24} />
             </a>
           </div>
         </div>

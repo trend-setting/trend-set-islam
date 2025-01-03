@@ -66,7 +66,7 @@ export default function Signup(): React.ReactNode {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-primary px-4 md:px-8">
+    <div className="flex items-center justify-center h-screen bg-primary px-4 md:px-8">
       <div className="w-full max-w-md p-8 bg-secondary rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-primary text-center">Ask and Solve</h1>
         <p className="text-sm font-light text-primary text-center mt-2">

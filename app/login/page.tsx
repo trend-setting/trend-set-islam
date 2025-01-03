@@ -7,6 +7,7 @@ import { auth, firestore } from "@/lib/firebase/page";
 import { doc, getDoc } from "firebase/firestore";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
+import Loader from "@/components/Loader";
 
 export default function LoginPage(): React.ReactNode {
   const [email, setEmail] = useState<string>("");
@@ -78,15 +79,11 @@ export default function LoginPage(): React.ReactNode {
   };
 
   if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-primary">
-        <p className="text-black">Loading Login Page...</p>
-      </div>
-    );
+    return <Loader/>
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-primary px-4 md:px-8">
+    <div className="flex items-center justify-center h-screen bg-primary px-4 md:px-8">
       <div className="w-full max-w-md p-8 bg-secondary rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-primary text-center">Ask and Solve</h1>
         <p className="text-sm font-light text-primary text-center mt-2">

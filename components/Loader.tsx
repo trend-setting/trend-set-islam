@@ -12,8 +12,8 @@ const Loader = () => {
         <Image
           src={pmsalogo}
           alt="PMSA Logo"
-          width={150}
-          height={150}
+          width={200}
+          height={200}
           className="mx-auto"
         />
       </div>

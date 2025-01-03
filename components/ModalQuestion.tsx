@@ -85,29 +85,33 @@ const ModalQuestion: React.FC<ModalQuestionProps> = ({ onClose }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[90dvw] max-w-md p-6 rounded shadow-md relative bg-secondary"  // Background color from palette
+      className="w-[90dvw] max-w-md p-6 rounded shadow-md relative bg-secondary"
     >
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-2 right-2 text-primary hover:text-muted" // Close button colors from palette
+        className="absolute top-2 right-2 text-primary hover:text-muted"
       >
         <IoCloseSharp className="h-6 w-6" />
       </button>
-      <h2 className="text-xl font-bold mb-4 text-primary">Ask a Question</h2>  {/* Title color */}
+      <h2 className="text-xl font-bold mb-4 text-primary">Ask a Question</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <p className="text-primary mb-4">Hey, {userName} feel free to ask</p>  {/* Text color */}
+      <p className="text-primary mb-4">Hey, {userName} feel free to ask</p>
       <textarea
         placeholder="Type your question here in any language you prefer..."
-        className="w-full p-2 border rounded mb-4 border-black" // Border color from palette
+        className="w-full p-2 border rounded mb-4 border-black"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         disabled={isSubmitting}
       ></textarea>
       <button
         type="submit"
-        className={`py-2 px-4 rounded w-full ${isSubmitting ? "bg-muted text-primary cursor-not-allowed" : "bg-light text-primary hover:bg-muted"}`}  // Button colors from palette
-        disabled={isSubmitting}
+        className={`py-2 px-4 rounded w-full ${
+          isSubmitting || question.trim() === ""
+            ? "bg-muted text-primary cursor-not-allowed"
+            : "bg-light text-primary hover:bg-muted"
+        }`}
+        disabled={isSubmitting || question.trim() === ""}
       >
         {isSubmitting ? "Submitting Question..." : "Submit Question"}
       </button>

@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push("/"); // Redirect to homepage if not logged in
+        router.push("/");
         return;
       }
 
@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           if (userData.isAdmin) {
-            router.push("/admin"); // Redirect admin users to admin page
+            router.push("/admin");
           }
         }
       } catch (error) {

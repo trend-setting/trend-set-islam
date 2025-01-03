@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { auth, firestore } from "@/lib/firebase/page";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, onSnapshot } from "firebase/firestore";
 import { IoMdNotifications } from "react-icons/io";
 
 const NavAdmin: React.FC = () => {
@@ -21,7 +21,7 @@ const NavAdmin: React.FC = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
           const userDocRef = doc(firestore, "users", user.uid);
@@ -33,7 +33,7 @@ const NavAdmin: React.FC = () => {
             setIsAdmin(userData.isAdmin || false);
 
             if (userData.isAdmin) {
-              fetchUnansweredQuestions();
+              subscribeToUnansweredQuestions();
             }
           }
         } catch (err) {
@@ -46,18 +46,18 @@ const NavAdmin: React.FC = () => {
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => unsubscribeAuth();
   }, []);
 
-  const fetchUnansweredQuestions = async () => {
-    try {
-      const questionsRef = collection(firestore, "questions");
-      const unansweredQuery = query(questionsRef, where("answered", "==", false));
-      const querySnapshot = await getDocs(unansweredQuery);
+  const subscribeToUnansweredQuestions = () => {
+    const questionsRef = collection(firestore, "questions");
+    const unansweredQuery = query(questionsRef, where("answered", "==", false));
+
+    const unsubscribe = onSnapshot(unansweredQuery, (querySnapshot) => {
       setUnansweredCount(querySnapshot.size);
-    } catch (err) {
-      console.error("Error fetching unanswered questions:", err);
-    }
+    });
+
+    return () => unsubscribe();
   };
 
   const toggleDropdown = (): void => {
@@ -133,7 +133,7 @@ const NavAdmin: React.FC = () => {
           {notificationsOpen && (
             <div className="absolute right-0 mt-2 w-64 bg-primary text-black shadow-lg rounded">
               <p className="px-4 py-2">
-                {unansweredCount} question{unansweredCount !== 1 ? "s" : ""} are pending to answer.
+                {unansweredCount} question{unansweredCount !== 1 ? "s" : ""} {unansweredCount !== 1 ? 'are' : 'is'}  pending to answer.
               </p>
             </div>
           )}

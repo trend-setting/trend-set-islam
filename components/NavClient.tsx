@@ -117,21 +117,21 @@ const NavClient: React.FC = () => {
           <div>
             <button
               onClick={toggleDropdown}
-              className="px-4 py-2 bg-[#ADC178] text-white rounded hover:bg-[#DDE5B6]"
+              className="px-4 py-2 bg-light text-primary rounded hover:bg-muted"
             >
               Ask a Question
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#ADC178] text-[#6C584C] shadow-lg rounded">
+              <div className="absolute right-0 mt-2 w-48 bg-light text-primary shadow-lg rounded">
                 <Link
                   href="/login"
-                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
+                  className="block px-4 py-2 hover:bg-muted"
                 >
                   Login
                 </Link>
                 <Link
                   href="/login"
-                  className="block px-4 py-2 hover:bg-[#DDE5B6]"
+                  className="block px-4 py-2 hover:bg-muted"
                 >
                   Admin Login
                 </Link>
