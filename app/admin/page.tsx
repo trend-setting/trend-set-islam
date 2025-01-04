@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { auth, firestore } from "@/lib/firebase/page";
 import {
@@ -36,7 +36,9 @@ export default function AdminDashboard(): React.ReactNode {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // For the sidebar
+
   const router = useRouter();
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -123,13 +125,26 @@ export default function AdminDashboard(): React.ReactNode {
   };
 
   useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setSidebarOpen(false);
+      }
+    };
+
     if (sidebarOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");
     }
 
-    return () => document.body.classList.remove("overflow-hidden");
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.body.classList.remove("overflow-hidden");
+    }
   }, [sidebarOpen]);
 
   if (loading) {
@@ -199,6 +214,7 @@ export default function AdminDashboard(): React.ReactNode {
         </div>
 
         <div
+          ref={sidebarRef}
           className={`fixed top-0 right-0 h-full w-80 bg-primary shadow-lg transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
@@ -228,8 +244,8 @@ export default function AdminDashboard(): React.ReactNode {
                     <button
                       onClick={() => handleAnswerSubmit(question.id)}
                       className={`py-2 px-4 rounded w-full text-primary ${submitting === question.id
-                          ? "bg-muted cursor-not-allowed"
-                          : "bg-light hover:bg-muted"
+                        ? "bg-muted cursor-not-allowed"
+                        : "bg-light hover:bg-muted"
                         }`}
                       disabled={submitting === question.id}
                     >
