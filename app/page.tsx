@@ -5,6 +5,7 @@ import { getDocs, collection, query, where } from "firebase/firestore"; // Fires
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader"; // Import the Loader component
+import { marked } from "marked";
 
 type Question = {
   id: string;
@@ -95,10 +96,15 @@ export default function HomePage() {
                       </div>
 
                       {openAnswer === question.id && (
-                        <div className="mt-4 px-4 py-2 bg-muted rounded-md">
-                          <p className="text-black">{question.answer}</p>
-                        </div>
-                      )}
+                      <div className="mt-4 px-4 py-2 bg-muted rounded-md">
+                        <p
+                          className="text-black"
+                          dangerouslySetInnerHTML={{
+                            __html: question.answer ? marked(question.answer) : "Answer is pending",
+                          }}
+                        ></p>
+                      </div>
+                    )}
                     </li>
                   ))}
                 </ul>

@@ -22,7 +22,7 @@ const Loader = () => {
       <div className="flex flex-col items-center justify-center flex-grow">
         {/* Hashtag */}
         <h1 className="text-secondary font-bold text-2xl my-6">
-          #must_try_6+5
+          #must_try_6_plus_5
         </h1>
 
         {/* Main logo */}

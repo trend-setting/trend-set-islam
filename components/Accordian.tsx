@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { auth, firestore } from "@/lib/firebase/page";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { marked} from 'marked'
 
 interface Question {
   id: string;
@@ -44,7 +45,7 @@ const AccordionOutline: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center text-[#6C584C]">Loading...</p>;
+    return <p className="text-center text-primary">Loading...</p>;
   }
 
   if (questions.length === 0) {
@@ -78,11 +79,14 @@ const AccordionOutline: React.FC = () => {
               />
             </svg>
           </summary>
-          <p className="mt-4 text-primary">
-            {question.answered
-              ? `Answer: ${question.answer}`
-              : "Answer is pending"}
-          </p>
+          <p
+            className="mt-4 text-primary"
+            dangerouslySetInnerHTML={{
+              __html: question.answered
+                ? marked(question.answer || "")
+                : "Answer is pending",
+            }}
+          ></p>
         </details>
       ))}
     </section>

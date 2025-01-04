@@ -14,6 +14,8 @@ import {
 import NavAdmin from "@/components/NavAdmin";
 import { IoCloseSharp } from "react-icons/io5";
 import Loader from "@/components/Loader";
+import RichTextEditor from "@/components/RichTextEditor";
+import { marked } from "marked";
 
 interface Question {
   id: string;
@@ -171,7 +173,12 @@ export default function AdminDashboard(): React.ReactNode {
 
                     {openAnswer === question.id && (
                       <div className="mt-4 px-4 py-2 bg-muted rounded-md">
-                        <p className="text-black">{question.answer}</p>
+                        <p
+                          className="text-black"
+                          dangerouslySetInnerHTML={{
+                            __html: question.answer ? marked(question.answer) : "Answer is pending",
+                          }}
+                        ></p>
                       </div>
                     )}
                   </li>
@@ -192,9 +199,8 @@ export default function AdminDashboard(): React.ReactNode {
         </div>
 
         <div
-          className={`fixed top-0 right-0 h-full w-80 bg-primary shadow-lg transform transition-transform duration-300 ${
-            sidebarOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`fixed top-0 right-0 h-full w-80 bg-primary shadow-lg transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           <div className="p-6 overflow-y-auto h-full">
             <button
@@ -214,20 +220,17 @@ export default function AdminDashboard(): React.ReactNode {
                     <p className="text-sm text-muted">
                       Asked by: {question.userName} ({question.place})
                     </p>
-                    <textarea
+                    <RichTextEditor
                       value={answers[question.id] || ""}
-                      onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-                      className="w-full p-3 border rounded-lg border-black mt-3 mb-4 bg-primary focus:ring-black focus:border-black"
-                      placeholder="Write your answer here..."
+                      onChange={(value) => handleAnswerChange(question.id, value)}
                       disabled={submitting === question.id}
                     />
                     <button
                       onClick={() => handleAnswerSubmit(question.id)}
-                      className={`py-2 px-4 rounded w-full text-primary ${
-                        submitting === question.id
+                      className={`py-2 px-4 rounded w-full text-primary ${submitting === question.id
                           ? "bg-muted cursor-not-allowed"
                           : "bg-light hover:bg-muted"
-                      }`}
+                        }`}
                       disabled={submitting === question.id}
                     >
                       {submitting === question.id ? "Submitting..." : "Submit Answer"}
