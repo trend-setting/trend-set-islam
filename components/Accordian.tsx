@@ -84,7 +84,7 @@ const AccordionOutline: React.FC = () => {
             dangerouslySetInnerHTML={{
               __html: question.answered
                 ? marked(question.answer || "")
-                : "Answer is pending",
+                : "ഇസ്ലാമിക മസ്അലകൾ കൊടുക്കുമ്പോൾ അതിൽ ഉറപ്പ് വരുത്തൽ നിര്ബന്ധമാണ്. അതിനാൽ മസ്അലകൾ കണ്ടുപിടിച്ചു ഒറപ്പിച്ചതിന് ശേഷം പൂർണ്ണമായ രീതിയിൽ ഉൾകൊള്ളുന്ന രീതിയിൽ ഉത്തരം നൽകുന്നതാണ്. നാഥൻ തൗഫീഖ് നൽകട്ടെ",
             }}
           ></p>
         </details>
