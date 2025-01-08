@@ -135,6 +135,9 @@ const NavClient: React.FC = () => {
                 >
                   Admin Login
                 </Link>
+                <Link href="/contact" className="block px-4 py-2 hover:bg-muted">
+                  Contact Us
+                </Link>
               </div>
             )}
           </div>
