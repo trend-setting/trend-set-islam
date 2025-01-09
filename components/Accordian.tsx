@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { auth, firestore } from "@/lib/firebase/page";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { marked} from 'marked'
+import Link from "next/link";
 
 interface Question {
   id: string;
@@ -80,13 +81,18 @@ const AccordionOutline: React.FC = () => {
             </svg>
           </summary>
           <p
-            className="mt-4 text-primary"
-            dangerouslySetInnerHTML={{
-              __html: question.answered
-                ? marked(question.answer || "")
-                : "ഇസ്ലാമിക മസ്അലകൾ കൊടുക്കുമ്പോൾ അതിൽ ഉറപ്പ് വരുത്തൽ നിര്ബന്ധമാണ്. അതിനാൽ മസ്അലകൾ കണ്ടുപിടിച്ചു ഒറപ്പിച്ചതിന് ശേഷം പൂർണ്ണമായ രീതിയിൽ ഉൾകൊള്ളുന്ന രീതിയിൽ ഉത്തരം നൽകുന്നതാണ്. നാഥൻ തൗഫീഖ് നൽകട്ടെ",
-            }}
-          ></p>
+            className="mt-4 text-primary border-t-2 border-primary">
+            {question.answered ? (
+              <span dangerouslySetInnerHTML={{ __html: marked(question.answer || "") }} />
+            ) : (
+              <>
+                ഇസ്ലാമിക മസ്അലകൾ വിശദീകരിച്ചു കൊടുക്കുമ്പോൾ ആ വിഷയത്തിൽ കൂടുതൽ കൃത്യതയും വ്യക്തതയും വരുത്തൽ അനിവാര്യമാണ്. അതിനാൽ മസ്അലകളിൽ കൂടുതൽ പഠനം നടത്തി പരമാവധി വേഗത്തിൽ ഉത്തരം നൽകാൻ ശ്രമിക്കാം.
+                <br />
+                നാഥൻ തൗഫീഖ് നൽകട്ടെ.
+                <br />
+                കൂടുതൽ വിവരങ്ങൾക്ക് <Link href="/contact" className="text-muted">ബന്ധപ്പെടുക</Link>
+              </>
+            )}</p>
         </details>
       ))}
     </section>

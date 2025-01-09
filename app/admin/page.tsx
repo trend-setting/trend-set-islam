@@ -215,21 +215,23 @@ export default function AdminDashboard(): React.ReactNode {
 
         <div
           ref={sidebarRef}
-          className={`fixed top-0 right-0 h-full w-80 bg-primary shadow-lg transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
+          className={`fixed top-0 right-0 h-full w-full bg-primary shadow-lg transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
           <div className="p-6 overflow-y-auto h-full">
+            <div className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-2 bg-secondary text-primary shadow-md z-50">
             <button
-              className="text-black text-lg font-medium mb-6"
+              className="text-lg font-medium mb-6"
               onClick={() => setSidebarOpen(false)}
             >
               <IoCloseSharp className="h-6 w-6" />
             </button>
-            <h2 className="text-xl font-semibold mb-6 text-black">
+            <h2 className="text-xl font-semibold mb-6">
               Unanswered Questions
             </h2>
+            </div>
             {unansweredQuestions.length > 0 ? (
-              <ul>
+              <ul className="mt-16">
                 {unansweredQuestions.map((question) => (
                   <li key={question.id} className="mb-8 border border-[#ADC178] p-4 rounded-lg bg-secondary">
                     <p className="font-medium text-primary">{question.text}</p>

@@ -70,7 +70,7 @@ const NavClient: React.FC = () => {
 
   if (loading) {
     return (
-      <nav className="flex justify-between items-center px-6 py-4 bg-secondary text-primary">
+      <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-secondary text-primary shadow-md z-50">
         <div className="text-xl font-bold">
           <Link href="/dashboard">My Dashboard</Link>
         </div>
@@ -80,7 +80,7 @@ const NavClient: React.FC = () => {
   }
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-secondary text-primary">
+    <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-secondary text-primary shadow-md z-50">
       {/* Left Side: Website Name */}
       <div className="text-xl font-bold">
         <Link href="/dashboard">My Dashboard</Link>
